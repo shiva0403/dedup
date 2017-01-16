@@ -1,9 +1,7 @@
 package com.sei.dedup;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -12,20 +10,7 @@ import java.util.Set;
  * 
  * @author shiva
  * 
- *         Description
- * 
- *         1. Given the following class, write 3 methods that can be used to
- *         return an array that has no duplicates. 2. You should define a method
- *         signature that you feel is appropriate to the problem. 3. We would
- *         prefer to see three implementations (one that should take into
- *         consideration #4 below) and an explanation of what use-cases are
- *         suitable to each implementation 4. What if we need to retain the
- *         original order? 5. What are the positives and negatives of your
- *         solution? a. Can you implement it another way so as to avoid the
- *         negatives? 6. Your solution should be testable and �production
- *         ready.� 7. Your solution should be posted to a public github repo
- *         that SEI can clone.
- *
+ * Description- Removing duplicates from a integer array
  * 
  */
 public class DeDup {
@@ -37,49 +22,104 @@ public class DeDup {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		DeDup dedup = new DeDup();
-		String version = System.getProperty("java.version");
-		System.out.println(version);
 		dedup.removeDuplicatesFromArray(randomIntegers);
-		System.out.println(System.currentTimeMillis());
 		dedup.removeDuplicatesFromArrayUsingSet(randomIntegers);
-		System.out.println(System.currentTimeMillis());		
 		dedup.removeDuplicatesFromArrayUsingLinkedHashSet(randomIntegers);
-		System.out.println(System.currentTimeMillis());
-	}
-
-	public int[] removeDuplicatesFromArray(int []inputArray) {
-
-		List<Integer> l = new ArrayList<Integer>();
-		for (int input : inputArray) {
-			if (!l.contains(input)) {
-				l.add(input);
-			}
-		}
-		return convertIntegerListtoIntArray(l);
 	}
 	
+	
+	/**
+	 * removeDuplicatesFromArray
+	 * Description: Remove duplicates from Array using ArrayList, retaining input order
+	 * @param inputArray
+	 * @return int[]
+	 */
+	public int[] removeDuplicatesFromArray(int []inputArray) {
+
+		List<Integer> list = new ArrayList<Integer>();
+		if(inputArray != null && inputArray.length > 0){
+			//if input is only single number 
+			if(inputArray.length == 1){
+				return inputArray;
+			}
+			for (int input : inputArray) {
+				if (!list.contains(input)) {
+					list.add(input);
+				}
+			}
+		}
+		
+		return convertIntegerListtoIntArray(list);
+	}
+	
+	/**
+	 * removeDuplicatesFromArrayUsingSet
+	 * Remove duplicates from Array using Set and List, retaining input order
+	 * @param inputArray
+	 * @return int[]
+	 */
 	public int[] removeDuplicatesFromArrayUsingSet(int []inputArray) {
 		Set<Integer> output = new HashSet<Integer>();
 		List<Integer> list = new ArrayList<Integer>();
-		for (int number : inputArray) {
-			if (output.add(number) == true) {
-				list.add(number);
+		if(inputArray != null && inputArray.length > 0){
+			if(inputArray.length == 1){
+				return inputArray;
+			}
+			for (int number : inputArray) {
+				if (output.add(number) == true) {
+					list.add(number);
+				}
 			}
 		}
+		
 		return convertIntegerListtoIntArray(list);
 	}
 
+	/**
+	 * removeDuplicatesFromArrayUsingLinkedHashSet
+	 * Removing duplicates from Array using LinkedHashSet, retaining input order
+	 * @param inputArray
+	 * @return int[]
+	 */
 	public int[] removeDuplicatesFromArrayUsingLinkedHashSet(int []inputArray){
 		
 		Set<Integer> set = new LinkedHashSet<Integer>();
-		for(int number: inputArray){
-			set.add(number);
+		if(inputArray != null && inputArray.length > 0){
+			if(inputArray.length == 1){
+				return inputArray;
+			}
+			for(int number: inputArray){
+				set.add(number);
+			}
 		}
 		
-		return set.stream().mapToInt(i -> i).toArray();
+		return convertIntegerSetToIntArray(set);
 	}
 
+	/**
+	 * convertIntegerListtoIntArray
+	 * converting integer list to int array
+	 * @param list
+	 * @return int[]
+	 */
 	public int[] convertIntegerListtoIntArray(List<Integer> list){
-		return list.stream().mapToInt(i -> i).toArray();
+		int []output = null;
+		if(list != null){
+			output = list.stream().mapToInt(i -> i).toArray();
+		}
+		return output;
+	}
+	
+	/**
+	 * convertIntegerSetToIntArray
+	 * @param set
+	 * @return int[]
+	 */
+	public int[] convertIntegerSetToIntArray(Set<Integer> set){
+		int []output = null;
+		if(set != null){
+			output = set.stream().mapToInt(i -> i).toArray();
+		}
+		return output;
 	}
 }
